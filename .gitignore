@@ -172,3 +172,13 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# --- Custom project-specific ignores ---
+
+# LangGraph Studio runtime files
+.langgraph_api/
+*.pckl
+
+# macOS system files
+.DS_Store
+
