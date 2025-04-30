@@ -1,28 +1,61 @@
-"""This module provides example tools for web scraping and search functionality.
+from langchain_core.tools import tool
+from langchain_core.pydantic_v1 import BaseModel, Field
+from langchain_openai import ChatOpenAI
 
-It includes a basic Tavily search function (as an example)
+# Initialize LLM
+llm = ChatOpenAI(temperature=0.3)
 
-These tools are intended as free examples to get started. For production use,
-consider implementing more robust and specialized tools tailored to your needs.
+# Define the input schema
+class JobDescriptionInput(BaseModel):
+    job_description: str = Field(..., description="The full job description including company, responsibilities, and qualifications.")
+
+# Define the tool
+@tool("generate_ideal_resume", args_schema=JobDescriptionInput)
+def generate_ideal_resume(input: JobDescriptionInput) -> str:
+    """
+    Generate the most ideal resume based on the given job description.
+    """
+    prompt = f"""
+You are an expert resume writer.
+
+Based on the job description below, generate the most ideal resume tailored to this job.
+
+Job Description:
+\"\"\"
+{input.job_description}
+\"\"\"
+
+The resume must include:
+
+- Full Name
+- Mobile Number
+- LinkedIn Profile Link
+- GitHub Profile Link
+- Email ID
+
+Education:
+- List the most aligned degree.
+
+Projects:
+- Include 5–6 project titles and summaries that align closely with the job requirements.
+
+Work Experience:
+- Add highly relevant experiences based on the job description.
+
+Skills (grouped as below):
+- Programming Languages
+- Web
+- Database
+- Tools / Frameworks / Platforms
+
+Other Interests & Achievements:
+- Add a few that would enhance the resume for this job.
+
+Use markdown formatting for structure.
 """
 
-from typing import Any, Callable, List, Optional, cast
+    response = llm.invoke(prompt)
+    return response.content
 
-from langchain_tavily import TavilySearch  # type: ignore[import-not-found]
-
-from react_agent.configuration import Configuration
-
-
-async def search(query: str) -> Optional[dict[str, Any]]:
-    """Search for general web results.
-
-    This function performs a search using the Tavily search engine, which is designed
-    to provide comprehensive, accurate, and trusted results. It's particularly useful
-    for answering questions about current events.
-    """
-    configuration = Configuration.from_context()
-    wrapped = TavilySearch(max_results=configuration.max_search_results)
-    return cast(dict[str, Any], await wrapped.ainvoke({"query": query}))
-
-
-TOOLS: List[Callable[..., Any]] = [search]
+# Expose the tool(s) to the graph
+TOOLS = [generate_ideal_resume]
