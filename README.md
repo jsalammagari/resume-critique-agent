@@ -1,105 +1,124 @@
 # Resume Critique Agent
 
-[![CI](https://github.com/langchain-ai/react-agent/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/langchain-ai/react-agent/actions/workflows/unit-tests.yml)
-[![Integration Tests](https://github.com/langchain-ai/react-agent/actions/workflows/integration-tests.yml/badge.svg)](https://github.com/langchain-ai/react-agent/actions/workflows/integration-tests.yml)
-[![Open in - LangGraph Studio](https://img.shields.io/badge/Open_in-LangGraph_Studio-00324d.svg?logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4NS4zMzMiIGhlaWdodD0iODUuMzMzIiB2ZXJzaW9uPSIxLjAiIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHBhdGggZD0iTTEzIDcuOGMtNi4zIDMuMS03LjEgNi4zLTYuOCAyNS43LjQgMjQuNi4zIDI0LjUgMjUuOSAyNC41QzU3LjUgNTggNTggNTcuNSA1OCAzMi4zIDU4IDcuMyA1Ni43IDYgMzIgNmMtMTIuOCAwLTE2LjEuMy0xOSAxLjhtMzcuNiAxNi42YzIuOCAyLjggMy40IDQuMiAzLjQgNy42cy0uNiA0LjgtMy40IDcuNkw0Ny4yIDQzSDE2LjhsLTMuNC0zLjRjLTQuOC00LjgtNC44LTEwLjQgMC0xNS4ybDMuNC0zLjRoMzAuNHoiLz48cGF0aCBkPSJNMTguOSAyNS42Yy0xLjEgMS4zLTEgMS43LjQgMi41LjkuNiAxLjcgMS44IDEuNyAyLjcgMCAxIC43IDIuOCAxLjYgNC4xIDEuNCAxLjkgMS40IDIuNS4zIDMuMi0xIC42LS42LjkgMS40LjkgMS41IDAgMi43LS41IDIuNy0xIDAtLjYgMS4xLS44IDIuNi0uNGwyLjYuNy0xLjgtMi45Yy01LjktOS4zLTkuNC0xMi4zLTExLjUtOS44TTM5IDI2YzAgMS4xLS45IDIuNS0yIDMuMi0yLjQgMS41LTIuNiAzLjQtLjUgNC4yLjguMyAyIDEuNyAyLjUgMy4xLjYgMS41IDEuNCAyLjMgMiAyIDEuNS0uOSAxLjItMy41LS40LTMuNS0yLjEgMC0yLjgtMi44LS44LTMuMyAxLjYtLjQgMS42LS41IDAtLjYtMS4xLS4xLTEuNS0uNi0xLjItMS42LjctMS43IDMuMy0yLjEgMy41LS41LjEuNS4yIDEuNi4zIDIuMiAwIC43LjkgMS40IDEuOSAxLjYgMi4xLjQgMi4zLTIuMy4yLTMuMi0uOC0uMy0yLTEuNy0yLjUtMy4xLTEuMS0zLTMtMy4zLTMtLjUiLz48L3N2Zz4=)](https://langgraph-studio.vercel.app/templates/open?githubUrl=https://github.com/langchain-ai/react-agent)
+## Overview
+An AI-powered Resume Critique Agent that analyzes resumes against job descriptions to provide tailored feedback, improvement suggestions, and a similarity score. Built with a modern web interface using Flask and Groq's AI API, the system features real-time progress tracking, detailed analysis, and actionable improvement suggestions.
 
-This template showcases a [ReAct agent](https://arxiv.org/abs/2210.03629) implemented using [LangGraph](https://github.com/langchain-ai/langgraph), designed for [LangGraph Studio](https://github.com/langchain-ai/langgraph-studio). ReAct agents are uncomplicated, prototypical agents that can be flexibly extended to many tools.
+![Resume Critique Agent UI](/static/resume_critique_ui.png)
 
-![Graph view in LangGraph studio UI](./static/studio_ui.png)
+## Features
 
-The core logic, defined in `src/react_agent/graph.py`, demonstrates a flexible ReAct agent that iteratively reasons about user queries and executes actions, showcasing the power of this approach for complex problem-solving tasks.
+- **AI-Powered Resume Analysis**: Compares your resume against job descriptions to identify gaps and opportunities
+- **Detailed Scoring**: Provides similarity scores with color-coding to highlight match quality
+- **Improvement Suggestions**: Generates actionable recommendations to enhance your resume
+- **Ideal Resume Generation**: Creates a tailored ideal resume for the specific job position
+- **Real-time Progress Tracking**: Shows detailed progress during analysis with timestamp logs
+- **Modern User Interface**: Clean, responsive design with animations and tab-based results
+- **Fast Processing**: Typically completes analysis within 20-30 seconds
+- **Detailed Logging**: Backend captures timing and performance metrics for transparency
 
-## What it does
+## Project Structure
 
-The ReAct agent:
-
-1. Takes a user **query** as input
-2. Reasons about the query and decides on an action
-3. Executes the chosen action using available tools
-4. Observes the result of the action
-5. Repeats steps 2-4 until it can provide a final answer
-
-By default, it's set up with a basic set of tools, but can be easily extended with custom tools to suit various use cases.
+```
+resume-critique-agent/
+├── app.py                  # Main Flask application with endpoints and progress tracking
+├── backend/
+│   ├── __init__.py         # Backend module initialization
+│   ├── config.py           # Configuration settings for the agent
+│   ├── graph.py            # Agent graph structure defining the workflow
+│   ├── prompts.py          # System prompts for the agent
+│   ├── tools.py            # Tools for resume analysis (generate ideal, compare, improve)
+│   └── utils.py            # Utility functions for the backend
+├── frontend/
+│   ├── static/
+│   │   ├── css/
+│   │   │   └── styles.css  # Custom CSS styles for the UI
+│   │   └── js/
+│   │       └── main.js     # Frontend JavaScript with progress polling and UI logic
+│   └── templates/
+│       └── index.html      # Main HTML template for the web interface
+└── .env.example            # Example environment variable configuration
+```
 
 ## Getting Started
 
-Assuming you have already [installed LangGraph Studio](https://github.com/langchain-ai/langgraph-studio?tab=readme-ov-file#download), to set up:
+### Prerequisites
+- Python 3.9 or higher
+- A Groq API key (required for AI functionality)
 
-1. Create a `.env` file.
+### Setup
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/jsalammagari/resume-critique-agent.git
+cd resume-critique-agent
+```
+
+2. Create and activate a virtual environment
+
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. Install the dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+4. Configure environment variables
 
 ```bash
 cp .env.example .env
 ```
 
-2. Define required API keys in your `.env` file.
-
-The following API keys are required:
-
-- **Groq API Key**: The agent uses Groq's LLM API for all language model interactions. Create an API key [here](https://console.groq.com/keys) and add it to your `.env` file as `GROQ_API_KEY=your-key-here`.
-
-- **Tavily API Key**: The [search tool](./src/react_agent/tools.py) [^1] uses [Tavily](https://tavily.com/). Create an API key [here](https://app.tavily.com/sign-in).
-
-<!--
-Setup instruction auto-generated by `langgraph template lock`. DO NOT EDIT MANUALLY.
--->
-
-### Setup Model
-
-The defaults values for `model` are shown below:
-
-```yaml
-model: anthropic/claude-3-5-sonnet-20240620
-```
-
-Follow the instructions below to get set up, or pick one of the additional options.
-
-#### Anthropic
-
-To use Anthropic's chat models:
-
-1. Sign up for an [Anthropic API key](https://console.anthropic.com/) if you haven't already.
-2. Once you have your API key, add it to your `.env` file:
+5. Edit the `.env` file and add your Groq API key
 
 ```
-ANTHROPIC_API_KEY=your-api-key
-```
-#### OpenAI
-
-To use OpenAI's chat models:
-
-1. Sign up for an [OpenAI API key](https://platform.openai.com/signup).
-2. Once you have your API key, add it to your `.env` file:
-```
-OPENAI_API_KEY=your-api-key
+GROQ_API_KEY=your-api-key-here
 ```
 
+### Running the Application
 
+1. Start the Flask application
 
+```bash
+python app.py
+```
 
+This will start the server on http://127.0.0.1:5001
 
-<!--
-End setup instructions
--->
+2. Open the application in your web browser by navigating to:
 
+```
+http://127.0.0.1:5001
+```
 
-3. Customize whatever you'd like in the code.
-4. Open the folder LangGraph Studio!
+## Usage
 
-## How to customize
+1. **Enter Resume Text**: Paste your resume content into the left text area
 
-1. **Add new tools**: Extend the agent's capabilities by adding new tools in [tools.py](./src/react_agent/tools.py). These can be any Python functions that perform specific tasks.
-2. **Select a different model**: We default to Anthropic's Claude 3 Sonnet. You can select a compatible chat model using `provider/model-name` via configuration. Example: `openai/gpt-4-turbo-preview`.
-3. **Customize the prompt**: We provide a default system prompt in [prompts.py](./src/react_agent/prompts.py). You can easily update this via configuration in the studio.
+2. **Enter Job Description**: Paste the job description into the right text area
 
-You can also quickly extend this template by:
+3. **Click "Analyze Resume"**: The system will process your resume against the job description
 
-- Modifying the agent's reasoning process in [graph.py](./src/react_agent/graph.py).
-- Adjusting the ReAct loop or adding additional steps to the agent's decision-making process.
+4. **View Progress**: Watch real-time progress updates during analysis
 
-## Development
+5. **Review Results**: Explore the three tabs of analysis results:
+   - **Resume Comparison**: See how your resume matches against the job requirements
+   - **Improvement Suggestions**: Get actionable feedback to enhance your resume
+   - **Ideal Resume**: View an AI-generated ideal resume for the position
 
-While iterating on your graph, you can edit past state and rerun your app from past states to debug specific nodes. Local changes will be automatically applied via hot reload. Try adding an interrupt before the agent calls tools, updating the default system message in `src/react_agent/configuration.py` to take on a persona, or adding additional nodes and edges!
+## Development Notes
+
+- **Processing Time**: Analysis typically takes 20-30 seconds depending on resume and job description complexity
+- **Rate Limits**: If you encounter slower processing, it may be due to Groq API rate limits
+- **Logging**: Check the terminal output for detailed logs during processing
+
+## Contribution
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 Follow up requests will be appended to the same thread. You can create an entirely new thread, clearing previous history, using the `+` button in the top right.
 
