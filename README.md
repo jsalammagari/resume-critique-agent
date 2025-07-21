@@ -1,20 +1,46 @@
 # Resume Critique Agent
 
 ## Overview
-An AI-powered Resume Critique Agent that analyzes resumes against job descriptions to provide tailored feedback, improvement suggestions, and a similarity score. Built with a modern web interface using Flask and Groq's AI API, the system features real-time progress tracking, detailed analysis, and actionable improvement suggestions.
+An AI-powered Resume Critique Agent that analyzes resumes against job descriptions to provide tailored feedback, improvement suggestions, and a similarity score. Built with a modern web interface using Flask and Groq's AI API, the system features real-time progress tracking, detailed analysis, actionable improvement suggestions, and resume optimization.
 
-![Resume Critique Agent UI](/static/resume_critique_ui.png)
+## Technology Stack
 
-## Features
+### Backend
+- **Python 3.9+**: Core programming language
+- **Flask**: Web framework for serving the application
+- **LangChain**: Framework for building LLM-powered applications
+- **LangGraph**: Tool for creating agent workflows with state management
+- **Groq API**: High-speed LLM provider powering all AI functionality
+- **Pydantic**: Data validation and settings management
+- **Threading**: For background task processing and cleanup
 
-- **AI-Powered Resume Analysis**: Compares your resume against job descriptions to identify gaps and opportunities
-- **Detailed Scoring**: Provides similarity scores with color-coding to highlight match quality
-- **Improvement Suggestions**: Generates actionable recommendations to enhance your resume
-- **Ideal Resume Generation**: Creates a tailored ideal resume for the specific job position
+### Frontend
+- **HTML5/CSS3/JavaScript**: Core web technologies
+- **Bootstrap 5**: UI framework for responsive design
+- **Font Awesome**: Icon library
+- **AOS**: Animation library for scroll effects
+- **Marked.js**: Markdown parsing for dynamic content rendering
+- **AJAX**: For asynchronous progress polling
+
+### Development & Deployment
+- **dotenv**: Environment variable management
+- **Logging**: Comprehensive backend logging system
+
+## Features & Tools
+
+### AI Analysis Tools
+- **Resume Comparison Tool**: Evaluates user resume against ideal candidate profile with detailed scoring and feedback
+- **Ideal Resume Generator**: Creates a tailored ideal resume based on job description
+- **Improvement Suggestions Tool**: Provides actionable, specific recommendations to enhance resume effectiveness
+- **Resume Optimization Tool**: Restructures and enhances user resume to match ideal resume without adding false information
+
+### User Experience Features
 - **Real-time Progress Tracking**: Shows detailed progress during analysis with timestamp logs
-- **Modern User Interface**: Clean, responsive design with animations and tab-based results
-- **Fast Processing**: Typically completes analysis within 20-30 seconds
+- **Tab-based Results Interface**: Organizes results in intuitive, accessible tabs
+- **ATS-Compatibility Analysis**: Evaluates how well resumes will perform with ATS systems
+- **Similarity Scoring**: Provides percentage-based scoring with color-coded visualization
 - **Detailed Logging**: Backend captures timing and performance metrics for transparency
+- **Responsive Design**: Works across desktop and mobile devices
 
 ## Project Structure
 
