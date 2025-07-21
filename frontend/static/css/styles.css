@@ -1,14 +1,14 @@
 /* Resume Critique Agent - Enhanced Styles */
 
 :root {
-    --primary-color: #4361ee;
-    --secondary-color: #3f37c9;
+    --primary-color: #000000;
+    --secondary-color: #222222;
     --success-color: #4cc9f0;
     --light-color: #f8f9fa;
     --dark-color: #212529;
     --gray-color: #6c757d;
     --warning-color: #f72585;
-    --info-color: #4361ee;
+    --info-color: #000000;
     --border-radius: 0.5rem;
     --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
     --transition: all 0.3s ease-in-out;
@@ -27,7 +27,7 @@ body {
 
 /* Header Styling */
 header.app-header {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: black;
     color: white;
     padding: 2rem 0;
     margin-bottom: 2rem;
@@ -94,7 +94,7 @@ header .lead {
 
 .form-control:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+    box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.25);
 }
 
 /* Button styling */

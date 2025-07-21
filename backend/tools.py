@@ -170,5 +170,55 @@ Provide your recommendations in a clear, actionable format with specific example
     response = llm.invoke(prompt)
     return response.content
 
+# --- Resume Optimization Tool ---
+
+class ResumeOptimizationInput(BaseModel):
+    user_resume: str = Field(..., description="The user's actual resume in plain text")
+    ideal_resume: str = Field(..., description="The ideal resume generated based on the job description")
+    job_description: str = Field(..., description="The job description for which the resume is being tailored")
+
+
+@tool("optimize_user_resume", args_schema=ResumeOptimizationInput)
+def optimize_user_resume(*, user_resume: str, ideal_resume: str, job_description: str) -> str:
+    """
+    Optimize the user's resume to better match the ideal resume for the job without adding false information.
+    Reorganizes projects, updates vocabulary for ATS optimization, and improves presentation.
+    """
+    prompt = (
+        f"You are an expert resume optimizer with deep knowledge of ATS systems and hiring standards.\n\n"
+        f"Your task is to optimize the USER RESUME below to more closely match the IDEAL RESUME without adding any false information.\n"
+        f"This is crucial: Only use information that already exists in the USER RESUME. Do not invent or add experiences,\n"
+        f"projects, skills, or qualifications that are not already mentioned in some form.\n\n"
+        f"USER RESUME:\n"
+        f"\"\"\"\
+{user_resume}\n\"\"\"\
+\n"
+        f"IDEAL RESUME (Reference only - do not copy directly):\n"
+        f"\"\"\"\
+{ideal_resume}\n\"\"\"\
+\n"
+        f"JOB DESCRIPTION:\n"
+        f"\"\"\"\
+{job_description}\n\"\"\"\
+\n"
+        f"Please optimize the USER RESUME by doing the following:\n\n"
+        f"1. Reorganize content to match the structure and flow of the ideal resume where appropriate\n"
+        f"2. Reorder projects and experiences to prioritize those most relevant to the job description\n"
+        f"3. Update vocabulary and phrasing to be more ATS-friendly and match keywords from the job description\n"
+        f"4. Improve bullet points with more impactful language and quantifiable achievements (only if such details exist in original)\n"
+        f"5. Enhance formatting and section organization for better readability\n\n"
+        f"Rules you MUST follow:\n"
+        f"- DO NOT add work experiences that don't exist in the original resume\n"
+        f"- DO NOT add skills that aren't mentioned or implied in the original resume\n"
+        f"- DO NOT invent projects or technical expertise not evidenced in the original resume\n"
+        f"- DO NOT fabricate accomplishments or metrics not supported by the original content\n"
+        f"- DO maintain the truthfulness of the original resume at all costs\n"
+        f"- DO use the ideal resume only as a structural and stylistic guide\n\n"
+        f"Return the complete optimized resume in a clean, professional format with appropriate markdown formatting.\n\n"
+        f"IMPORTANT: Your response should be ONLY the optimized resume text in markdown format. Do not include any explanations, disclaimers or notes before or after the resume."
+    )
+    response = llm.invoke(prompt)
+    return response.content
+
 # Expose all tools to the LangGraph agent
-TOOLS = [generate_ideal_resume, compare_resumes, generate_resume_improvements]
+TOOLS = [generate_ideal_resume, compare_resumes, generate_resume_improvements, optimize_user_resume]

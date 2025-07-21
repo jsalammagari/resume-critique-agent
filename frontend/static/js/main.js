@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const comparisonContent = document.getElementById('comparisonContent');
     const improvementsContent = document.getElementById('improvementsContent');
     const idealContent = document.getElementById('idealContent');
+    const optimizedContent = document.getElementById('optimizedContent');
 
     // Sample data for testing UI (uncomment if needed for development)
     // const sampleData = {
@@ -100,6 +101,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <div class="progress-stage" data-stage="improvements">
                         <i class="fas fa-clipboard-check"></i> Improvement Suggestions
+                        <span class="stage-status">Waiting...</span>
+                    </div>
+                    <div class="progress-stage" data-stage="optimization">
+                        <i class="fas fa-star"></i> Resume Optimization
                         <span class="stage-status">Waiting...</span>
                     </div>
                 </div>
@@ -277,6 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
             comparisonContent.innerHTML = marked.parse(data.comparisonResult);
             improvementsContent.innerHTML = marked.parse(data.improvementSuggestions);
             idealContent.innerHTML = marked.parse(data.idealResume);
+            optimizedContent.innerHTML = marked.parse(data.optimizedResume);
             
             // Make sure the results section is visible
             resultsSection.classList.remove('d-none');

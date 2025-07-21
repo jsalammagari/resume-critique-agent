@@ -27,7 +27,7 @@ logger.info("Environment variables loaded successfully")
 # Now import other dependencies after environment is loaded
 from flask import Flask, render_template, request, jsonify, Response, stream_with_context
 import asyncio
-from backend.tools import generate_ideal_resume, compare_resumes, generate_resume_improvements
+from backend.tools import generate_ideal_resume, compare_resumes, generate_resume_improvements, optimize_user_resume
 
 # Dictionary to store request progress
 request_progress = {}
@@ -127,11 +127,29 @@ def critique_resume():
         logger.info(f"[{request_id}] Total processing time: {total_time:.2f} seconds")
         update_progress(request_id, "complete", f"Analysis completed in {total_time:.2f} seconds", 100)
         
+        # Also add the optimized resume to the response
+        update_progress(request_id, "optimization", "Optimizing your resume based on analysis", 97)
+        optimization_start = time.time()
+        optimized_resume = loop.run_until_complete(
+            optimize_user_resume.ainvoke({
+                "user_resume": user_resume,
+                "ideal_resume": ideal_resume,
+                "job_description": job_description
+            })
+        )
+        optimization_time = time.time() - optimization_start
+        logger.info(f"[{request_id}] Generated optimized resume in {optimization_time:.2f} seconds")
+        update_progress(request_id, "optimization", f"Resume optimization completed in {optimization_time:.2f} seconds", 100)
+        
+        # Update total time calculation
+        total_time = time.time() - start_time
+        
         return jsonify({
             'requestId': request_id,
             'idealResume': ideal_resume,
             'comparisonResult': comparison_result,
             'improvementSuggestions': improvement_suggestions,
+            'optimizedResume': optimized_resume,
             'processingTime': f"{total_time:.2f}s",
             'progress': request_progress[request_id]
         })
